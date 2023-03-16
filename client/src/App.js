@@ -1,0 +1,52 @@
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { themeSettings } from "theme";
+import Dashboard from "scenes/dashboard";
+import Layout from "scenes/layout";
+import Products from "scenes/products";
+import Customers from "scenes/customers";
+import Transactions from "scenes/transactions";
+import Geography from "scenes/geography";
+import Overview from "scenes/overview";
+import Daily from "scenes/daily";
+import Monthly from "scenes/monthly";
+import Breakdown from "scenes/breakdown";
+import Admin from "scenes/admins";
+import Perfomance from "scenes/perfomance";
+
+function App() {
+  const mode = useSelector((state) => state.global.mode);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  return (
+    <div className="app">
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
+            <Route element={<Layout />}>
+              {/* element in route means everything in this route will have Layout as a parent!! VERY COOL!! */}
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              {/* navigate to replace => if we landed to / page it redirects us to dashboard page. Like after login */}
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/customers" element={<Customers />} />
+              <Route path="/transactions" element={<Transactions />} />
+              <Route path="/geography" element={<Geography />} />
+              <Route path="/overview" element={<Overview />} />
+              <Route path="/daily" element={<Daily />} />
+              <Route path="/monthly" element={<Monthly />} />
+              <Route path="/breakdown" element={<Breakdown />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/perfomance" element={<Perfomance />} />
+            </Route>
+          </Routes>
+        </ThemeProvider>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
